@@ -39,9 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final _userService = UserService();
 
   getAllUserDetails() async{
-    _userList=<User>[];
+     _userList=<User>[];
     var users= await _userService.readAllUsers();
-    _userList=<User>[];
+    // _userList=<User>[];
     users.forEach((user){
       setState(() {
         var userModel = User();
@@ -77,9 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () async{
             var result =await _userService.deleteUser(useId);
             if (result != null){
+              setState(() {
+                 Navigator.pop(context);
+              });
                   getAllUserDetails();
                   _showSuccessSnacBar('User Details Deleted Success');
-                  Navigator.pop(context);
+
                 }
             },child: const Text('Delete'),),
             TextButton(

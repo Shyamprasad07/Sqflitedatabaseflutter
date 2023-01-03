@@ -144,7 +144,7 @@ class _AddUserState extends State<AddUser> {
                           _user.contact = _userContactController.text;
                           _user.address = _userAddressController.text;
                           _user.landmark = _userLandmarkController.text;
-                          _user.pincode = _userLandmarkController.text;
+                          _user.pincode = _userPincodeController.text;
                           var result = await _userService.SaveUser(_user);
                           Navigator.pop(context,result);
                          
