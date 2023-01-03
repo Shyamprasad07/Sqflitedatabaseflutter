@@ -4,7 +4,7 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is crud opration on sqlite
+This project is crud opration on sqflite database
 Blank homepage
 
 ![homepage](https://user-images.githubusercontent.com/116074737/210380458-9e98bfab-f899-461e-b689-09dad378d2e4.jpeg)
