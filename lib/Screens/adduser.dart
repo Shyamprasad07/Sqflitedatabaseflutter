@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sqflitedb_app/model/usermodel.dart';
+import 'package:sqflitedb_app/service/userservice.dart';
 
 class AddUser extends StatefulWidget {
   const AddUser({super.key});
@@ -13,6 +15,12 @@ class _AddUserState extends State<AddUser> {
   var _userAddressController = TextEditingController();
   var _userLandmarkController = TextEditingController();
   var _userPincodeController = TextEditingController();
+  bool _validateName = false;
+  bool _validateContact = false;
+  bool _validateAddress = false;
+  bool _validateLandmark = false;
+  bool _validatePincode = false;
+  var _userService = UserService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,50 +45,65 @@ class _AddUserState extends State<AddUser> {
               ),
               TextField(
                 controller: _userNameController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter Name',
-                    labelText: 'Name'),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Enter Name',
+                  labelText: 'Name',
+                  errorText: _validateName ? 'Name Value Can\t Be Empty' : null,
+                ),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               TextField(
                 controller: _userContactController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter Contact',
-                    labelText: 'contact'),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Enter Contact',
+                  labelText: 'contact',
+                  errorText:
+                      _validateContact ? 'Contact Value Can\t Be Empty' : null,
+                ),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               TextField(
                 controller: _userAddressController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter Address',
-                    labelText: 'Address'),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Enter Address',
+                  labelText: 'Address',
+                  errorText:
+                      _validateAddress ? 'Address Value Can\t Be Empty' : null,
+                ),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               TextField(
                 controller: _userLandmarkController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter Landmark',
-                    labelText: 'Landmark'),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Enter Landmark',
+                  labelText: 'Landmark',
+                  errorText: _validateLandmark
+                      ? 'Landmark Value Can\t Be Empty'
+                      : null,
+                ),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               TextField(
                 controller: _userPincodeController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter Pincode',
-                    labelText: 'Pincode'),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Enter Pincode',
+                  labelText: 'Pincode',
+                  errorText:
+                      _validatePincode ? ' Pincode Value Can\t Be Empty' : null,
+                ),
               ),
               const SizedBox(
                 height: 20.0,
@@ -92,7 +115,41 @@ class _AddUserState extends State<AddUser> {
                         primary: Colors.white,
                         backgroundColor: Colors.teal,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        setState(() {
+                          _userNameController.text.isEmpty
+                              ? _validateName = true
+                              : _validateName = false;
+                          _userContactController.text.isEmpty
+                              ? _validateContact = true
+                              : _validateContact = false;
+                          _userAddressController.text.isEmpty
+                              ? _validateAddress = true
+                              : _validateAddress = false;
+                          _userLandmarkController.text.isEmpty
+                              ? _validateLandmark = true
+                              : _validateLandmark = false;
+                          _userPincodeController.text.isEmpty
+                              ? _validatePincode = true
+                              : _validatePincode = false;
+                        });
+                        if (_validateName == false &&
+                            _validateContact == false &&
+                            _validateAddress == false &&
+                            _validateLandmark == false &&
+                            _validatePincode == false) {
+                          //print('Good Data can save');
+                          var _user = User();
+                          _user.name = _userNameController.text;
+                          _user.contact = _userContactController.text;
+                          _user.address = _userAddressController.text;
+                          _user.landmark = _userLandmarkController.text;
+                          _user.pincode = _userLandmarkController.text;
+                          var result = await _userService.SaveUser(_user);
+                          Navigator.pop(context,result);
+                         
+                        }
+                      },
                       child: Text("Save Details")),
                   SizedBox(
                     width: 10.0,
@@ -103,11 +160,11 @@ class _AddUserState extends State<AddUser> {
                         backgroundColor: Colors.red,
                       ),
                       onPressed: () {
-                        _userNameController.text='';
-                        _userContactController.text='';
-                        _userAddressController.text='';
-                        _userLandmarkController.text='';
-                        _userPincodeController.text='';
+                        _userNameController.text = '';
+                        _userContactController.text = '';
+                        _userAddressController.text = '';
+                        _userLandmarkController.text = '';
+                        _userPincodeController.text = '';
                       },
                       child: Text("clear Details")),
                 ],
