@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflitedb_app/Screens/edituser.dart';
 import 'package:sqflitedb_app/model/usermodel.dart';
 import 'package:sqflitedb_app/service/userservice.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -59,7 +60,40 @@ class _MyHomePageState extends State<MyHomePage> {
     getAllUserDetails();
     super.initState();
   }
-  
+  _showSuccessSnacBar(String message){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+  _deleteFromDialog(BuildContext context,useId){
+    return showDialog(context: context, builder: (param){
+      return AlertDialog(
+        title: const Text('Are You Sure to Delete',
+        style: TextStyle(color: Colors.black,fontSize: 20),),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+              backgroundColor: Colors.red,
+            ),
+            onPressed: () async{
+            var result =await _userService.deleteUser(useId);
+            if (result != null){
+                  getAllUserDetails();
+                  _showSuccessSnacBar('User Details Deleted Success');
+                  Navigator.pop(context);
+                }
+            },child: Text('Delete'),),
+            TextButton(
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+              backgroundColor: Colors.black,
+            ),
+            onPressed: (){
+              Navigator.pop(context);
+            },child: Text('Close'),)
+        ],
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         itemBuilder: (context, index) {
           return Card(
             child: Container(
-              width: 200,
+              width: 00,
               height: 150,
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   margin: const EdgeInsets.all(10),
@@ -91,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         Text(
                           'Address : ${_userList[index].address??''} ',
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 15),
                         ),
                         Text(
                           'Landmark : ${_userList[index].landmark??''} ',
@@ -104,10 +138,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         
                         
                 ],),
-                SizedBox(width: 80.0,),
+                SizedBox(width: 10.0,),
                 
-                IconButton(onPressed: (){}, icon: Icon(Icons.edit),color: Colors.black,),
-                IconButton(onPressed: (){}, icon: Icon(Icons.delete),color: Colors.red,),
+                IconButton(onPressed: (){
+                   Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EditUser(user: _userList[index],))).then((data){
+                if (data != null){
+                  getAllUserDetails();
+                  _showSuccessSnacBar('User Details Updated Success');
+                }
+              });
+                }, icon: Icon(Icons.edit),color: Colors.black,),
+                IconButton(onPressed: (){
+                  _deleteFromDialog(context,_userList[index].id);
+                }, icon: Icon(Icons.delete),color: Colors.red,),
               
               ]),
             ),
@@ -120,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
               context, MaterialPageRoute(builder: (context) => AddUser())).then((data){
                 if (data != null){
                   getAllUserDetails();
+                  _showSuccessSnacBar('User Details Added Success');
                 }
               });
         },

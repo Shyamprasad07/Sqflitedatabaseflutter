@@ -16,4 +16,12 @@ class UserService {
    readAllUsers( ) async{
      return await _repository.readData('users');
    }
+  //  Update user details
+  UpdateUser(User user) async{
+    return await _repository.updateData('users', user.userMap());
+  }
+  // delete user deails
+  deleteUser(userId) async{
+    return await _repository.deleteData('users', userId);
+  }
 }
