@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   _showSuccessSnacBar('User Details Deleted Success');
                   Navigator.pop(context);
                 }
-            },child: Text('Delete'),),
+            },child: const Text('Delete'),),
             TextButton(
             style: TextButton.styleFrom(
               primary: Colors.white,
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             onPressed: (){
               Navigator.pop(context);
-            },child: Text('Close'),)
+            },child: const Text('Close'),)
         ],
       );
     });
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Address"),
+        title: const Text("Add Address"),
       ),
       body: ListView.builder(
         itemCount: _userList.length,
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         
                         
                 ],),
-                SizedBox(width: 10.0,),
+                const SizedBox(width: 10.0,),
                 
                 IconButton(onPressed: (){
                    Navigator.push(
@@ -148,10 +148,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   _showSuccessSnacBar('User Details Updated Success');
                 }
               });
-                }, icon: Icon(Icons.edit),color: Colors.black,),
+                }, icon: const Icon(Icons.edit),color: Colors.black,),
                 IconButton(onPressed: (){
                   _deleteFromDialog(context,_userList[index].id);
-                }, icon: Icon(Icons.delete),color: Colors.red,),
+                }, icon: const Icon(Icons.delete),color: Colors.red,),
               
               ]),
             ),
@@ -161,14 +161,14 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddUser())).then((data){
+              context, MaterialPageRoute(builder: (context) => const AddUser())).then((data){
                 if (data != null){
                   getAllUserDetails();
                   _showSuccessSnacBar('User Details Added Success');
                 }
               });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
