@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:sqflitedb_app/model/usermodel.dart';
 import 'package:sqflitedb_app/service/userservice.dart';
@@ -10,17 +12,17 @@ class AddUser extends StatefulWidget {
 }
 
 class _AddUserState extends State<AddUser> {
-  var _userNameController = TextEditingController();
-  var _userContactController = TextEditingController();
-  var _userAddressController = TextEditingController();
-  var _userLandmarkController = TextEditingController();
-  var _userPincodeController = TextEditingController();
+  final _userNameController = TextEditingController();
+  final _userContactController = TextEditingController();
+  final _userAddressController = TextEditingController();
+  final _userLandmarkController = TextEditingController();
+  final _userPincodeController = TextEditingController();
   bool _validateName = false;
   bool _validateContact = false;
   bool _validateAddress = false;
   bool _validateLandmark = false;
   bool _validatePincode = false;
-  var _userService = UserService();
+  final _userService = UserService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,12 +148,13 @@ class _AddUserState extends State<AddUser> {
                           _user.landmark = _userLandmarkController.text;
                           _user.pincode = _userPincodeController.text;
                           var result = await _userService.SaveUser(_user);
+                          // ignore: use_build_context_synchronously
                           Navigator.pop(context,result);
                          
                         }
                       },
-                      child: Text("Save Details")),
-                  SizedBox(
+                      child: const Text("Save Details")),
+                  const SizedBox(
                     width: 10.0,
                   ),
                   TextButton(
@@ -166,7 +169,7 @@ class _AddUserState extends State<AddUser> {
                         _userLandmarkController.text = '';
                         _userPincodeController.text = '';
                       },
-                      child: Text("clear Details")),
+                      child: const Text("clear Details")),
                 ],
               )
             ],

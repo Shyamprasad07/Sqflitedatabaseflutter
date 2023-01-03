@@ -7,6 +7,7 @@ class User {
   String? pincode;
   userMap() {
     var mapping = Map<String, dynamic>();
+    // ignore: unnecessary_null_in_if_null_operators
     mapping['id'] = id ?? null;
     mapping['name'] = name!;
     mapping['contact'] = contact!;

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:sqflitedb_app/Screens/edituser.dart';
 import 'package:sqflitedb_app/model/usermodel.dart';
